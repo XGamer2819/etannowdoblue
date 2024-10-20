@@ -202,10 +202,11 @@ public class cameraautonomous extends LinearOpMode {
            drive("Forward", 0.25, 0.5, 0.5, 0.5, 0.5);
            driveStop();
            drive("Left", 0.25, 0.5, 0.5, 0.5, 0.5 );
-            driveStop();
+           driveStop();
            drive("TurnLeft", 0.65, 0.5, 0.5, 0.5, 0.5);
             SlideMove("Up", 0.25, 0.75);
             WheelIntake("Outake", 1.5);
+            driveStop();
 
                 telemetry.update();
 
