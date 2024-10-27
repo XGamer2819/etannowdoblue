@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.CRServo;
 
@@ -35,7 +36,7 @@ public class cameraautonomous extends LinearOpMode {
     private DcMotor rightBackDrive;
     private DcMotor Slide;
     private DcMotor SlideRotation;
-    private DcMotor Intake;
+    private CRServo Intake;
 
 
 
@@ -57,7 +58,7 @@ public class cameraautonomous extends LinearOpMode {
         rightBackDrive = hardwareMap.get(DcMotor.class, "backright");
         Slide = hardwareMap.get(DcMotor.class, "slide");
         SlideRotation =  hardwareMap.get(DcMotor.class, "slide rotation");
-        Intake = hardwareMap.get(DcMotor.class, "intake");
+        Intake = hardwareMap.get(CRServo.class, "intake");
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -77,16 +78,26 @@ public class cameraautonomous extends LinearOpMode {
         rightBackDrive.setPower(0);
 
     }
+    private void slideRotateStop() {
+        SlideRotation.setPower(0);
+    }
+    private void slideStop() {
+        Slide.setPower(0);
+    }
+    private void IntakeStop() {
+        Intake.setPower(0);
+    }
     private void SlideMove(String direction, double runtimeinseconds, double motorpower) {
         ElapsedTime runtime = new ElapsedTime();
         runtime.reset();
-        if (direction == "Up") {
+        Slide.setDirection(DcMotor.Direction.REVERSE);
+        if (direction == "Extend") {
             Slide.setPower(motorpower);
         }
-        if (direction == "Down") {
+        if (direction == "UnExtend") {
             Slide.setPower(-motorpower);
         }
-        Slide.setPower(0);
+
         while (opModeIsActive() && (runtime.seconds() < runtimeinseconds)) {
             telemetry.update();
         }
@@ -95,13 +106,14 @@ public class cameraautonomous extends LinearOpMode {
     private void WheelIntake(String direction, double runtimeinseconds) {
         ElapsedTime runtime = new ElapsedTime();
         runtime.reset();
+        Intake.setDirection(CRServo.Direction.FORWARD);
         if (direction == "Outake") {
             Intake.setPower(-1);
         }
         if (direction == "Intake") {
             Intake.setPower(1);
         }
-        Intake.setPower(0);
+
         while (opModeIsActive() && (runtime.seconds() < runtimeinseconds)) {
             telemetry.update();
         }
@@ -110,13 +122,14 @@ public class cameraautonomous extends LinearOpMode {
     private void slideRotationMove(String direction, double runtimeinseconds, double MotorPower) {
         ElapsedTime runtime = new ElapsedTime();
         runtime.reset();
-        if (direction == "Extend") {
-            SlideRotation.setPower(MotorPower);
-        }
-        if (direction == "UnExtend") {
+       // SlideRotation.setDirection(DcMotor.Direction.REVERSE);
+        if (direction == "Up") {
             SlideRotation.setPower(-MotorPower);
         }
-        SlideRotation.setPower(0);
+        if (direction == "Down") {
+            SlideRotation.setPower(MotorPower);
+        }
+
         while (opModeIsActive() && (runtime.seconds() < runtimeinseconds)) {
             telemetry.update();
         }
@@ -126,10 +139,10 @@ public class cameraautonomous extends LinearOpMode {
                        double leftFrontPower, double rightFrontPower,
                        double leftBackPower, double rightBackPower) {
         ElapsedTime runtime = new ElapsedTime();
-        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         runtime.reset();
         if (direction == "Forward") {
             leftFrontDrive.setPower(leftFrontPower);
@@ -197,18 +210,26 @@ public class cameraautonomous extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         if (opModeIsActive()) {
 
-            while (opModeIsActive()) {
-
-           drive("Forward", 0.25, 0.5, 0.5, 0.5, 0.5);
+            while (opModeIsActive()) { 
+            slideRotationMove("Up",3.15, 1);
+            slideRotateStop();
+           drive("Forward", 1, 0.5, 0.5, 0.5, 0.5);
            driveStop();
-           drive("Left", 0.25, 0.5, 0.5, 0.5, 0.5 );
+           drive("Left", 1, 0.5, 0.5, 0.5, 0.5 );
            driveStop();
-           drive("TurnLeft", 0.65, 0.5, 0.5, 0.5, 0.5);
-            SlideMove("Up", 0.25, 0.75);
-            WheelIntake("Outake", 1.5);
+           drive("TurnLeft", 1.5, 0.5, 0.5, 0.5, 0.5);
+           drive("Forward", 0.8, 0.5, 0.5, 0.5, 0.5);
             driveStop();
+           SlideMove("Extend", 1.75, 1);
+           WheelIntake("Outake", 1.5);
+            IntakeStop();
+            driveStop();
+            SlideMove("UnExtend", 0.25, 0.5);
+            slideStop();
+            telemetry.update();
+            break;
 
-                telemetry.update();
+
 
 
 
