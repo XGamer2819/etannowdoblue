@@ -2,31 +2,16 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import android.graphics.Color;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.CRServo;
 
-import org.firstinspires.ftc.robotcore.external.JavaUtil;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-import java.util.List;
+@Autonomous(name="redauto w/ close position", group="Linear OpMode")
 
-
-@Autonomous(name="cameraautonomous", group="Linear OpMode")
-
-public class cameraautonomous extends LinearOpMode {
+public class redautoclose extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
 
@@ -122,7 +107,7 @@ public class cameraautonomous extends LinearOpMode {
     private void slideRotationMove(String direction, double runtimeinseconds, double MotorPower) {
         ElapsedTime runtime = new ElapsedTime();
         runtime.reset();
-       // SlideRotation.setDirection(DcMotor.Direction.REVERSE);
+        // SlideRotation.setDirection(DcMotor.Direction.REVERSE);
         if (direction == "Up") {
             SlideRotation.setPower(-MotorPower);
         }
@@ -210,24 +195,58 @@ public class cameraautonomous extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         if (opModeIsActive()) {
 
-            while (opModeIsActive()) { 
-            slideRotationMove("Up",3.15, 1);
-            slideRotateStop();
-           drive("Forward", 1, 0.5, 0.5, 0.5, 0.5);
-           driveStop();
-           drive("Left", 1, 0.5, 0.5, 0.5, 0.5 );
-           driveStop();
-           drive("TurnLeft", 1.5, 0.5, 0.5, 0.5, 0.5);
-           drive("Forward", 0.8, 0.5, 0.5, 0.5, 0.5);
-            driveStop();
-           SlideMove("Extend", 1.75, 1);
-           WheelIntake("Outake", 1.5);
-            IntakeStop();
-            driveStop();
-            SlideMove("UnExtend", 0.25, 0.5);
-            slideStop();
-            telemetry.update();
-            break;
+            while (opModeIsActive()) {
+                slideRotationMove("Up",2.33, 1);
+                slideRotateStop();
+                drive("Forward", 0.75, 0.5, 0.5, 0.5, 0.5);
+                driveStop();
+                drive("Left", 0.15, 0.5, 0.5, 0.5, 0.5);
+                driveStop();
+                drive("TurnLeft", 1.05, 0.5, 0.5, 0.5, 0.5);
+                drive("Forward", 0.195 , 1, 1, 1, 1);
+                driveStop();
+                SlideMove("Extend", 1.75, 1);
+                WheelIntake("Outake", 1.5);
+                drive("Backward", 0.125, 1, 1, 1, 1);
+                IntakeStop();
+                driveStop();
+                SlideMove("UnExtend", 1.75, 1);
+                slideStop();
+                drive("Left", 0.3, 0.5, 0.5, 0.5, 0.5);
+                drive("Backward", 0.45, 0.5, 0.5, 0.5, 0.5);
+                drive("TurnRight", 0.425, 0.5, 0.5, 0.5, 0.5);
+                drive("Right", 0.6, 0.5, 0.5, 0.5, 0.5);
+                driveStop();
+                slideRotationMove("Down", 1.6, 1);
+                slideRotateStop();
+                SlideMove("Extend", 0.1295, 1);
+                slideStop();
+                WheelIntake("Intake", 2);
+                IntakeStop();
+                slideRotationMove("Up", 2.2, 1);
+                slideRotateStop();
+                SlideMove("UnExtend", 0.75, 1);
+                drive("Left", 0.75, 0.5, 0.5, 0.5, 0.5);
+                drive("TurnLeft", 0.45, 0.5, 0.5, 0.5, 0.5);
+                drive("Forward", 0.5, 0.5, 0.5, 0.5, 0.5);
+                drive("Right", 0.3, 0.5, 0.5, 0.5, 0.5);
+                drive("Forward", 0.4, 0.5, 0.5, 0.5, 0.5);
+                driveStop();
+                SlideMove("Extend", 1.75, 1);
+                WheelIntake("Outake", 1.5);
+                drive("Backward", 0.275, 1, 1, 1, 1);
+                IntakeStop();
+                driveStop();
+                SlideMove("UnExtend", 1.75, 1);
+                slideStop();
+                drive("TurnRight", 0.48, 0.5, 0.5, 0.5, 0.5);
+                drive("Backward", 1.5, 1, 1, 1, 1);
+                driveStop();
+                drive("Left", 0.75, 1, 1, 1, 1);
+                driveStop();
+                telemetry.update();
+
+                break;
 
 
 
@@ -238,7 +257,6 @@ public class cameraautonomous extends LinearOpMode {
         }
 
 
-                }
+    }
 
-        }
-
+}
