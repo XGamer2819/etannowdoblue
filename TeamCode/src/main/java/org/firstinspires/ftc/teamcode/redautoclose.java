@@ -223,7 +223,7 @@ public class redautoclose extends LinearOpMode {
                 slideStop();
                 WheelIntake("Intake", 2);
                 IntakeStop();
-                slideRotationMove("Up", 2.2, 1);
+                slideRotationMove("Up", 2.35, 1);
                 slideRotateStop();
                 SlideMove("UnExtend", 0.75, 1);
                 drive("Left", 0.75, 0.5, 0.5, 0.5, 0.5);
